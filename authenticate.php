@@ -1,11 +1,4 @@
 <?php
-/*******w******** 
-    
-    Name: Hayden Ploszay  
-    Date: 28/09/24
-    Description: Used to authenticate access to edit and create functions of blog
-
-****************/
   define('ADMIN_LOGIN','wally');
 
   define('ADMIN_PASSWORD','mypass');
@@ -23,7 +16,4 @@
     exit("Access Denied: Username and password required.");
 
   }
-
-   
-
 ?>
