@@ -1,0 +1,30 @@
+#########################################################
+QUERY ALL PROGRAMS
+#########################################################
+
+$query = "
+SELECT 
+    `program`.`programID` AS `ProgramID`, 
+    `program`.`name` AS `Name`,
+    `program`.`description` AS `Description`,  <!-- Added missing comma -->
+    `age_rating`.`description` AS `Age Rating`,
+    `program`.`expectedDuration` AS `Duration`, 
+    `category`.`categoryName` AS `Category`, 
+    `image`.`image_source` AS `Image`
+FROM 
+    `program` 
+JOIN 
+    `age_rating` 
+ON 
+    `program`.`ageRatingID` = `age_rating`.`ageRatingID`
+JOIN
+    `image`
+ON 
+    `program`.`imageID` = `image`.`imageID`
+JOIN 
+    `category`
+ON 
+    `program`.`categoryID` = `category`.`categoryID`
+";
+
+########################################################
