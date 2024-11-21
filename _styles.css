@@ -1,0 +1,14 @@
+.program {
+    border: 1px solid #000;
+    border-radius: 15px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+    margin: 20px auto;
+}
+
+img{
+    border-radius: 15px;
+}
