@@ -1,5 +1,5 @@
  <nav>
-    <h1>Quark's Holosuite Programs</h1>
+    <h1>Admin Menu</h1>
     <br>
     <a href="index.php">Home</a>
     <a href="upload_image.php">Upload Image</a>

@@ -1,5 +1,9 @@
 <?php
+session_start();
+$_SESSION['role'] = ''; // Login in logic needs to be added here
+
 require('connect.php');
+
 $height = "auto";
 $width = 500;
 
@@ -31,6 +35,7 @@ ON
 $statement = $db->prepare($query);
 $statement->execute();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,7 +46,7 @@ $statement->execute();
     <title>Try A Holosuite at Quark's!</title>
 </head>
 <body>
-<?php include('nav.php'); ?>    
+<?php include('header.php')?> 
     <?php while($row = $statement->fetch()): ?>
         <div>
             <div class="program">
@@ -51,7 +56,13 @@ $statement->execute();
                 <p><strong>Duration:</strong> <?php echo htmlspecialchars($row['Duration']); ?></p>
                 <p><strong>Category:</strong> <?php echo htmlspecialchars($row['Category']); ?></p>
                 <p class="img"><img src="<?php echo htmlspecialchars($row['Image']); ?>" alt="<?php echo htmlspecialchars($row['Name']); ?>" width = "<?php echo $width ?>" height = "<?php echo $height ?>"></p>
+                <?php 
+                if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): 
+                ?>
                 <a href="edit.php?id=<?php echo $row['ProgramID']; ?>">Edit</a>
+                <?php 
+                endif; 
+                ?>
             </div>
         </div>
         <br>
