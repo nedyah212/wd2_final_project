@@ -27,7 +27,7 @@
         $imageID = filter_input(INPUT_POST, 'imageID', FILTER_SANITIZE_NUMBER_INT);
         $expectedDuration = filter_input(INPUT_POST, 'expectedDuration', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         
-        if($name == "" || $description == "" || $ageRatingID == "" || $categoryID == "" || $imageID == "" || $expectedDuration == "") {
+        if($name == "" || $description == "" || $ageRatingID == "" || $categoryID == "" || $expectedDuration == "") {
             exit("All fields must be filled in with at least one character! Please try again.");
         }
 
@@ -88,8 +88,8 @@
         </select><br>
 
         <label for="imageID">Image</label>
-        <select id="imageID" name="imageID" required>
-            <option value="">Select Image</option>
+        <select id="imageID" name="imageID">
+        <option value="" selected>Select Image</option> 
             <?php foreach ($images as $image): ?>
                 <option value="<?= htmlspecialchars($image['imageID']) ?>">
                     <?= htmlspecialchars($image['image_source']) ?>

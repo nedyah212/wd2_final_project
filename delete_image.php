@@ -2,21 +2,31 @@
 require('connect.php');
 require('authenticate.php');
 
-$imagesQuery = "SELECT `imageID`, `image_source` FROM `image`";
+//Gets image_sources for drop down box from db
+$imagesQuery = "SELECT `imageID`, `image_source` FROM `image` WHERE(imageID > 1)";
 $imagesStatement = $db->prepare($imagesQuery);
 $imagesStatement->execute();
 $images = $imagesStatement->fetchAll(PDO::FETCH_ASSOC);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {    
-
+//When delete image is clicked
+if ($_SERVER['REQUEST_METHOD'] === 'POST') 
+{   
+    //Separates image_ID and image_source and aplies them to variables
     $selectedValue = filter_input(INPUT_POST, 'imageID', FILTER_SANITIZE_STRING);
-
     list($imageID, $imageSource) = explode('|', $selectedValue);
 
+    //Sets the value of any image_ID in program matching the above image_ID to 1 (null), to prepare photo for deletion
+    $updateQuery = "UPDATE `program` SET `imageID` = 1 WHERE `imageID` = :imageID";
+    $updateStatement = $db->prepare($updateQuery);
+    $updateStatement->bindValue(':imageID', $imageID, PDO::PARAM_STR);
+    $updateStatement->execute();
+
+    //Deletes image row from image table
     $deleteQuery = "DELETE FROM `image` WHERE `imageID` = :imageID";
     $deleteStatement = $db->prepare($deleteQuery);  
     $deleteStatement->bindValue(':imageID', $imageID, PDO::PARAM_INT);
     
+    //Deletes matching image from images directory
     if ($deleteStatement->execute()) {
         if (file_exists($imageSource)) {
             unlink($imageSource);
