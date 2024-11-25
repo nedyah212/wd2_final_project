@@ -1,6 +1,7 @@
 <?php
+    session_start();
     require('connect.php');
-    require('authenticate.php');
+    include('header.php');
     
     $display = "none";
 
@@ -57,8 +58,6 @@
     <title>Insert Program</title>
 </head>
 <body>
-    <?php include('nav.php'); ?>
-
     <h2>Add New Program</h2>
     <form method="post" action="post.php">
         <label for="name">Program Name</label>

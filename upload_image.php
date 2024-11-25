@@ -1,7 +1,9 @@
 <?php
-include('nav.php');
-include('functions.php');
+session_start();
 require('connect.php');
+include('header.php');
+include('functions.php');
+
 
 $target_dir = "images/";
 $output_string = "";

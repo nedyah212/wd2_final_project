@@ -1,6 +1,7 @@
 <?php
-require('connect.php');
-require('authenticate.php');
+session_start();
+include('connect.php');
+include('header.php');
 
 //Gets image_sources for drop down box from db
 $imagesQuery = "SELECT `imageID`, `image_source` FROM `image` WHERE(imageID > 1)";
@@ -9,7 +10,7 @@ $imagesStatement->execute();
 $images = $imagesStatement->fetchAll(PDO::FETCH_ASSOC);
 
 //When delete image is clicked
-if ($_SERVER['REQUEST_METHOD'] === 'POST') 
+if ($_POST) 
 {   
     //Separates image_ID and image_source and aplies them to variables
     $selectedValue = filter_input(INPUT_POST, 'imageID', FILTER_SANITIZE_STRING);
@@ -47,8 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     <title>Delete Image</title>
 </head>
 <body>
-    <?php include('nav.php'); ?>
-
     <h2>Delete Image</h2>
     <form method="post" action="">
         <label for="imageID">Image</label>

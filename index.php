@@ -1,8 +1,6 @@
 <?php
-session_start();
-$_SESSION['role'] = ''; // Login in logic needs to be added here
-
 require('connect.php');
+session_start();
 
 $height = "auto";
 $width = 500;

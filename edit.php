@@ -1,6 +1,6 @@
 <?php
 require('connect.php');
-require('authenticate.php');
+session_start();
 
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
