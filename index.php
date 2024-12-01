@@ -86,7 +86,7 @@ $statement->execute();
         <input type="hidden" name="category" value="group activities">
         <input type="submit" value="Group">
     </form>
-</div>
+    </div>
 <?php while ($row = $statement->fetch()): ?>
     <div>
         <div class="program">
@@ -95,14 +95,12 @@ $statement->execute();
             <p><strong>Age Rating:</strong> <?php echo htmlspecialchars($row['Age Rating']); ?></p>
             <p><strong>Duration:</strong> <?php echo htmlspecialchars($row['Duration']); ?></p>
             <p><strong>Category:</strong> <?php echo htmlspecialchars($row['Category']); ?></p>
-            <p class="img"><img src="<?php echo htmlspecialchars($row['Image']); ?>" alt="<?php echo htmlspecialchars($row['Name']); ?>" width="500" height="auto"></p>
-            <?php 
-            if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): 
-            ?>
-            <a href="edit.php?id=<?php echo $row['ProgramID']; ?>">Edit</a>
-            <?php 
-            endif; 
-            ?>
+            <?php if ($row['Image']): ?>
+                <p class="img"><img src="<?php echo htmlspecialchars($row['Image']); ?>" alt="<?php echo htmlspecialchars($row['Name']); ?>" width="500" height="auto"></p>
+            <?php endif; ?>
+            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                <a href="edit.php?id=<?php echo $row['ProgramID']; ?>">Edit</a>
+            <?php endif; ?>
         </div>
     </div>
     <br>

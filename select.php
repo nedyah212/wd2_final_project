@@ -2,12 +2,10 @@
 require('connect.php');
 session_start();
 
-// Get the program ID from the query string (e.g., select.php?id=1)
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
-// If an ID is provided, fetch the details for that program.
 if ($id) {
-    $query = "
+    $programQuery = "
     SELECT 
         `program`.`programID` AS `ProgramID`, 
         `program`.`name` AS `Name`,
@@ -19,29 +17,47 @@ if ($id) {
     FROM 
         `program` 
     JOIN 
-        `age_rating` 
-    ON 
-        `program`.`ageRatingID` = `age_rating`.`ageRatingID`
-    JOIN
-        `image`
-    ON
-        `program`.`imageID` = `image`.`imageID`
+        `age_rating` ON `program`.`ageRatingID` = `age_rating`.`ageRatingID`
     JOIN 
-        `category`
-    ON 
-        `program`.`categoryID` = `category`.`categoryID`
+        `image` ON `program`.`imageID` = `image`.`imageID`
+    JOIN 
+        `category` ON `program`.`categoryID` = `category`.`categoryID`
     WHERE 
         `program`.`programID` = :id
     LIMIT 1";
 
-    $statement = $db->prepare($query);
-    $statement->bindValue(':id', $id, PDO::PARAM_INT);
-    $statement->execute();
+    $programStatement = $db->prepare($programQuery);
+    $programStatement->bindValue(':id', $id, PDO::PARAM_INT);
+    $programStatement->execute();
+    $row = $programStatement->fetch();
 
-    $row = $statement->fetch();
+    $reviewQuery = "SELECT `reviewerName`, `rating`, `reviewText` FROM `review` WHERE `programID` = :id";
+    $reviewStatement = $db->prepare($reviewQuery);
+    $reviewStatement->bindValue(':id', $id, PDO::PARAM_INT);
+    $reviewStatement->execute();
+    $review = $reviewStatement->fetchAll() ?: [];
 } else {
-    header('Location: index.php'); 
+    header('Location: index.php');
     exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $reviewerName = filter_input(INPUT_POST, 'reviewerName', FILTER_SANITIZE_STRING);
+    $rating = filter_input(INPUT_POST, 'rating', FILTER_VALIDATE_INT);
+    $reviewText = filter_input(INPUT_POST, 'reviewText', FILTER_SANITIZE_STRING);
+
+    if ($reviewerName && $rating && $reviewText) {
+        $insertQuery = "INSERT INTO `review` (`programID`, `reviewerName`, `rating`, `reviewText`) VALUES (:programID, :reviewerName, :rating, :reviewText)";
+        $insertStatement = $db->prepare($insertQuery);
+        $insertStatement->bindValue(':programID', $id, PDO::PARAM_INT);
+        $insertStatement->bindValue(':reviewerName', $reviewerName, PDO::PARAM_STR);
+        $insertStatement->bindValue(':rating', $rating, PDO::PARAM_INT);
+        $insertStatement->bindValue(':reviewText', $reviewText, PDO::PARAM_STR);
+        $insertStatement->execute();
+
+        header("Location: select.php");
+        exit;
+    }
 }
 ?>
 
@@ -55,29 +71,51 @@ if ($id) {
     <title>Program Details</title>
 </head>
 <body>
-    <?php include('header.php')?> 
+    <?php include('header.php') ?>
 
     <?php if ($row): ?>
         <div class="program">
             <h2><?php echo htmlspecialchars($row['Name']); ?></h2>
-            <p><strong>Description: </strong><?php echo nl2br(wordwrap(html_entity_decode($row['Description']), 60,  "\n" . str_repeat("&nbsp;", 22))); ?></p>
+            <p><strong>Description:</strong> <?php echo nl2br(htmlspecialchars($row['Description'])); ?></p>
             <p><strong>Age Rating:</strong> <?php echo htmlspecialchars($row['Age Rating']); ?></p>
             <p><strong>Duration:</strong> <?php echo htmlspecialchars($row['Duration']); ?></p>
             <p><strong>Category:</strong> <?php echo htmlspecialchars($row['Category']); ?></p>
-            <p class="img">
-                <img src="<?php echo htmlspecialchars($row['Image']); ?>" alt="<?php echo htmlspecialchars($row['Name']); ?>">
-            </p>
-            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-                <a href="edit.php?id=<?php echo $row['ProgramID']; ?>">Edit</a>
+            <?php if ($row['Image']): ?>
+                <p class="img"><img src="<?php echo htmlspecialchars($row['Image']); ?>" alt="<?php echo htmlspecialchars($row['Name']); ?>" width="500" height="auto"></p>
             <?php endif; ?>
         </div>
+
+        <h3>Reviews</h3>
+        <?php if ($review): ?>
+        <ul>
+        <?php foreach ($review as $singleReview): ?>
+            <li>
+                <p><strong><?php echo htmlspecialchars($singleReview['reviewerName']); ?></strong> rated it <?php echo htmlspecialchars($singleReview['rating']); ?>/5</p>
+                <p><?php echo nl2br(htmlspecialchars($singleReview['reviewText'])); ?></p>
+            </li>
+        <?php endforeach; ?>
+        </ul>
+        <?php else: ?>
+            <p>No reviews yet. Log In and Leave a Review.</p>
+        <?php endif; ?>
+
+        <h3>Leave a Review</h3>
+        <form method="post">
+            <label for="reviewerName">Your Name:</label>
+            <input type="text" name="reviewerName" id="reviewerName" required>
+
+            <label for="rating">Rating (1-5):</label>
+            <input type="number" name="rating" id="rating" min="1" max="5" required>
+
+            <label for="reviewText">Your Review:</label>
+            <textarea name="reviewText" id="reviewText" required></textarea>
+
+            <button type="submit">Submit Review</button>
+        </form>
     <?php else: ?>
         <p>Program not found.</p>
     <?php endif; ?>
 
-    <form method="post" action="index.php">
-        <br>
-        <button type="submit">Back</button>
-    </form>
+    <button onclick="history.back()">Back</button>
 </body>
 </html>
