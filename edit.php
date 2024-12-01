@@ -56,7 +56,6 @@ if ($_POST) {
     <title>Edit Program</title>
 </head>
 <body>
-    <?php include('nav.php'); ?>
 
     <h2>Edit Program</h2>
 

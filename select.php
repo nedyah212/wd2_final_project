@@ -2,10 +2,6 @@
 require('connect.php');
 session_start();
 
-// Set the default image dimensions
-$height = "auto";
-$width = 500;
-
 // Get the program ID from the query string (e.g., select.php?id=1)
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
@@ -36,16 +32,15 @@ if ($id) {
         `program`.`categoryID` = `category`.`categoryID`
     WHERE 
         `program`.`programID` = :id
-    LIMIT 1"; // To ensure we only get one program
+    LIMIT 1";
 
     $statement = $db->prepare($query);
-    $statement->bindValue(':id', $id, PDO::PARAM_INT);  // Bind the ID parameter
+    $statement->bindValue(':id', $id, PDO::PARAM_INT);
     $statement->execute();
 
     $row = $statement->fetch();
 } else {
-    // If no id is provided, redirect or show an error
-    header('Location: index.php'); // Redirect back to index page if no ID
+    header('Location: index.php'); 
     exit;
 }
 ?>
@@ -70,7 +65,7 @@ if ($id) {
             <p><strong>Duration:</strong> <?php echo htmlspecialchars($row['Duration']); ?></p>
             <p><strong>Category:</strong> <?php echo htmlspecialchars($row['Category']); ?></p>
             <p class="img">
-                <img src="<?php echo htmlspecialchars($row['Image']); ?>" alt="<?php echo htmlspecialchars($row['Name']); ?>" width = "<?php echo $width ?>" height = "<?php echo $height ?>">
+                <img src="<?php echo htmlspecialchars($row['Image']); ?>" alt="<?php echo htmlspecialchars($row['Name']); ?>">
             </p>
             <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
                 <a href="edit.php?id=<?php echo $row['ProgramID']; ?>">Edit</a>

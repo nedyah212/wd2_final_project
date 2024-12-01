@@ -4,7 +4,7 @@
     include('header.php');
     
     $display = "none";
-
+    
     $ageRatingsQuery = "SELECT `ageRatingID`, `description` FROM `age_rating`";
     $ageRatingsStatement = $db->prepare($ageRatingsQuery);
     $ageRatingsStatement->execute();
