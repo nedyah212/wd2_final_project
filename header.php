@@ -39,7 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
 
     if (isset($_SESSION['role'])) {
         if ($_SESSION['role'] === 'admin') {
-            echo '<p>Welcome Admin</p>';
             echo '<nav>
                     <h1>Admin Menu</h1>
                     <br>
@@ -52,7 +51,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
 
             include('sign_out.php');
         } elseif ($_SESSION['role'] === 'user') {
-            echo '<p>Welcome User</p>';
             include('sign_out.php');
         }
     } else {

@@ -2,9 +2,6 @@
 require('connect.php');
 session_start();
 
-$height = "auto";
-$width = 500;
-
 $query = 
 "SELECT 
     `program`.`programID` AS `ProgramID`, 
@@ -27,10 +24,20 @@ ON
 JOIN 
     `category`
 ON 
-    `program`.`categoryID` = `category`.`categoryID`
-";
+    `program`.`categoryID` = `category`.`categoryID`";
+
+if (isset($_GET['category']) && $_GET['category'] !== 'all') {
+    $category = htmlspecialchars($_GET['category']);
+    $query .= " WHERE `category`.`categoryName` = :category";
+}
 
 $statement = $db->prepare($query);
+
+
+if (isset($category)) {
+    $statement->bindParam(':category', $category);
+}
+
 $statement->execute();
 ?>
 
@@ -44,26 +51,61 @@ $statement->execute();
     <title>Try A Holosuite at Quark's!</title>
 </head>
 <body>
-<?php include('header.php')?> 
-    <?php while($row = $statement->fetch()): ?>
-        <div>
-            <div class="program">
-                <h2><a href="select.php?id=<?php echo $row['ProgramID']; ?>"><?php echo htmlspecialchars($row['Name']); ?></a></h2>
-                <p><strong>Description: </strong><?php echo nl2br(wordwrap(html_entity_decode($row['Description']), 60,  "\n" . str_repeat("&nbsp;", 22))); ?></p>
-                <p><strong>Age Rating:</strong> <?php echo htmlspecialchars($row['Age Rating']); ?></p>
-                <p><strong>Duration:</strong> <?php echo htmlspecialchars($row['Duration']); ?></p>
-                <p><strong>Category:</strong> <?php echo htmlspecialchars($row['Category']); ?></p>
-                <p class="img"><img src="<?php echo htmlspecialchars($row['Image']); ?>" alt="<?php echo htmlspecialchars($row['Name']); ?>" width = "<?php echo $width ?>" height = "<?php echo $height ?>"></p>
-                <?php 
-                if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): 
-                ?>
-                <a href="edit.php?id=<?php echo $row['ProgramID']; ?>">Edit</a>
-                <?php 
-                endif; 
-                ?>
-            </div>
+<?php include('header.php')?>
+<br>
+<div class="category">
+    <form method="get" action="index.php">
+        <input type="hidden" name="category" value="all">
+        <input type="submit" value="All">
+    </form>
+    <form method="get" action="index.php">
+        <input type="hidden" name="category" value="historical">
+        <input type="submit" value="Historical">
+    </form>
+    <form method="get" action="index.php">
+        <input type="hidden" name="category" value="training">
+        <input type="submit" value="Training">
+    </form>
+    <form method="get" action="index.php">
+        <input type="hidden" name="category" value="combat training">
+        <input type="submit" value="Combat">
+    </form>
+    <form method="get" action="index.php">
+        <input type="hidden" name="category" value="spirituality">
+        <input type="submit" value="Spirituality">
+    </form>
+    <form method="get" action="index.php">
+        <input type="hidden" name="category" value="entertainment">
+        <input type="submit" value="Entertainment">
+    </form>
+    <form method="get" action="index.php">
+        <input type="hidden" name="category" value="adult encounters">
+        <input type="submit" value="Adult">
+    </form>
+    <form method="get" action="index.php">
+        <input type="hidden" name="category" value="group activities">
+        <input type="submit" value="Group">
+    </form>
+</div>
+<?php while ($row = $statement->fetch()): ?>
+    <div>
+        <div class="program">
+            <h2><a href="select.php?id=<?php echo $row['ProgramID']; ?>"><?php echo htmlspecialchars($row['Name']); ?></a></h2>
+            <p><strong>Description: </strong><?php echo nl2br(wordwrap(html_entity_decode($row['Description']), 60,  "\n" . str_repeat("&nbsp;", 22))); ?></p>
+            <p><strong>Age Rating:</strong> <?php echo htmlspecialchars($row['Age Rating']); ?></p>
+            <p><strong>Duration:</strong> <?php echo htmlspecialchars($row['Duration']); ?></p>
+            <p><strong>Category:</strong> <?php echo htmlspecialchars($row['Category']); ?></p>
+            <p class="img"><img src="<?php echo htmlspecialchars($row['Image']); ?>" alt="<?php echo htmlspecialchars($row['Name']); ?>" width="500" height="auto"></p>
+            <?php 
+            if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): 
+            ?>
+            <a href="edit.php?id=<?php echo $row['ProgramID']; ?>">Edit</a>
+            <?php 
+            endif; 
+            ?>
         </div>
-        <br>
-    <?php endwhile ?>
+    </div>
+    <br>
+<?php endwhile ?>
 </body>
 </html>
