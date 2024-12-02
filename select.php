@@ -31,7 +31,7 @@ if ($id) {
     $programStatement->execute();
     $row = $programStatement->fetch();
 
-    $reviewQuery = "SELECT `reviewerName`, `rating`, `reviewText` FROM `review` WHERE `programID` = :id";
+    $reviewQuery = "SELECT `reviewerName`, `rating`, `reviewText` FROM `review` WHERE `programID` = :id AND `hidden`= 0";
     $reviewStatement = $db->prepare($reviewQuery);
     $reviewStatement->bindValue(':id', $id, PDO::PARAM_INT);
     $reviewStatement->execute();
