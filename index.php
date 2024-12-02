@@ -91,15 +91,12 @@ $statement->execute();
     <div>
         <div class="program">
             <h2><a href="select.php?id=<?php echo $row['ProgramID']; ?>"><?php echo htmlspecialchars($row['Name']); ?></a></h2>
-            <p><strong>Description: </strong><?php echo nl2br(wordwrap(html_entity_decode($row['Description']), 60,  "\n" . str_repeat("&nbsp;", 22))); ?></p>
+            <p><strong>Description: </strong><?php echo nl2br(wordwrap(html_entity_decode($row['Description']))); ?></p>
             <p><strong>Age Rating:</strong> <?php echo htmlspecialchars($row['Age Rating']); ?></p>
             <p><strong>Duration:</strong> <?php echo htmlspecialchars($row['Duration']); ?></p>
             <p><strong>Category:</strong> <?php echo htmlspecialchars($row['Category']); ?></p>
             <?php if ($row['Image']): ?>
-                <p class="img"><img src="<?php echo htmlspecialchars($row['Image']); ?>" alt="<?php echo htmlspecialchars($row['Name']); ?>" width="500" height="auto"></p>
-            <?php endif; ?>
-            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-                <a href="edit.php?id=<?php echo $row['ProgramID']; ?>">Edit</a>
+                <p class="img"><img src="<?php echo htmlspecialchars($row['Image']); ?>" alt="<?php echo htmlspecialchars($row['Name']); ?>"></p>
             <?php endif; ?>
         </div>
     </div>

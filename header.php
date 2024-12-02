@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
 
     if (!isset($_SESSION['role']) || $_SESSION['role'] === '') {
         echo '<form method="post" action="create_user.php">
-            <input type="submit" value="Create User">
+            <input type="submit" value="Sign Up">
           </form><br>';
     }
 
@@ -42,7 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
             echo '<nav>
                     <h1>Admin Menu</h1>
                     <br>
-                    <a href="index.php">Home</a>
+                    <a href="admin_overview.php">Overview</a>
+                    <a href="user_overview.php">User Overview</a>
                     <a href="upload_image.php">Upload Image</a>
                     <a href="delete_image.php">Delete Image</a>
                     <a href="post.php">New Program</a>

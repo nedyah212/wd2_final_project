@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php foreach ($review as $singleReview): ?>
             <li>
                 <p><strong><?php echo htmlspecialchars($singleReview['reviewerName']); ?></strong> rated it <?php echo htmlspecialchars($singleReview['rating']); ?>/5</p>
-                <p><?php echo nl2br(htmlspecialchars($singleReview['reviewText'])); ?></p>
+                <p><?php echo htmlspecialchars($singleReview['reviewText']); ?></p>
             </li>
         <?php endforeach; ?>
         </ul>
