@@ -1,5 +1,11 @@
 <?php
 include('connect.php');
+session_start();
+include('header.php');
+
+
+$sortColumn = isset($_POST['sortColumn']) ? $_POST['sortColumn'] : 'program.name';
+$sortOrder = isset($_POST['sortOrder']) ? $_POST['sortOrder'] : 'ASC';
 
 $query = "
 SELECT 
@@ -11,7 +17,7 @@ SELECT
     `category`.`categoryName` AS `Category`, 
     `image`.`image_source` AS `Image`,
     `review`.`reviewerName` AS `Reviewer`, 
-    `review`.`reviewText` AS `Review`,
+    `review`.`reviewText` AS `Review` ,
     `review`.`hidden` AS `Hidden`,
     `review`.`reviewID` AS `ReviewID`
 FROM 
@@ -23,7 +29,8 @@ JOIN
 JOIN 
     `category` ON `program`.`categoryID` = `category`.`categoryID`
 LEFT JOIN 
-    `review` ON `program`.`programID` = `review`.`programID`";
+    `review` ON `program`.`programID` = `review`.`programID`
+ORDER BY $sortColumn $sortOrder"; 
 
 $statement = $db->prepare($query);
 $statement->execute();
@@ -38,6 +45,25 @@ $statement->execute();
 </head>
 <body>
     <h3>Admin Overview</h3>
+
+    <form action="admin_overview.php" method="post">
+        <label for="sortColumn">Sort by:</label>
+        <select name="sortColumn" id="sortColumn">
+            <option value="program.name" <?php echo ($sortColumn == 'program.name') ? 'selected' : ''; ?>>Title</option>
+            <option value="age_rating.description" <?php echo ($sortColumn == 'age_rating.description') ? 'selected' : ''; ?>>Age Rating</option>
+            <option value="category.categoryName" <?php echo ($sortColumn == 'category.categoryName') ? 'selected' : ''; ?>>Category</option>
+        </select>
+
+        <label for="sortOrder">Order:</label>
+        <select name="sortOrder" id="sortOrder">
+            <option value="ASC" <?php echo ($sortOrder == 'ASC') ? 'selected' : ''; ?>>Ascending</option>
+            <option value="DESC" <?php echo ($sortOrder == 'DESC') ? 'selected' : ''; ?>>Descending</option>
+        </select>
+
+        <button type="submit">Sort</button>
+    </form>
+
+    <hr>
 
     <?php 
     while ($row = $statement->fetch(PDO::FETCH_ASSOC)): ?>

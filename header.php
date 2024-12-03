@@ -1,5 +1,5 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_submit'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
@@ -10,8 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
 
     $user = $getUserStatement->fetch(PDO::FETCH_ASSOC);
     
-    if ($user) 
-    {
+    if ($user) {
         if (password_verify($password, $user['password'])) {
             $role = $user['role'];
             $_SESSION['role'] = $role;
@@ -19,8 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
         } else {
             echo "<p>Incorrect password, please try again.</p>";
         }
-    } else 
-    {
+    } else {
         echo "<p>User not found, please try again.</p>";
     }
 }
@@ -30,7 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
     <h1>Visit Quarks Holosuite's Today</h1>
     <h2>Browse My Extensive Range of Holo Programs</h2>
     <?php
-
     if (!isset($_SESSION['role']) || $_SESSION['role'] === '') {
         echo '<form method="post" action="create_user.php">
             <input type="submit" value="Sign Up">
@@ -44,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
                     <br>
                     <a href="admin_overview.php">Overview</a>
                     <a href="user_overview.php">User Overview</a>
+                    <a href="add_category.php">Modify Categories</a>
                     <a href="upload_image.php">Upload Image</a>
                     <a href="delete_image.php">Delete Image</a>
                     <a href="post.php">New Program</a>
@@ -61,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
                 <input type="text" name="username" class="login" required>
                 <label for="password">Password</label>
                 <input type="password" name="password" class="login" required>
-                <input type="submit" value="Login">
+                <input type="submit" name="login_submit" value="Login">
             </form>';
     }
     ?>

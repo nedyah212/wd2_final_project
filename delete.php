@@ -10,7 +10,7 @@
         $statement->bindValue(':id', $id, PDO::PARAM_INT);
         $statement->execute();
 
-        header("Location: index.php");
+        header("Location: admin_overview.php");
         exit();
     } else {
         exit("Invalid program ID. Please try again.");

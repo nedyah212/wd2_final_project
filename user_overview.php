@@ -1,6 +1,7 @@
 <?php 
 require('connect.php');
 session_start();
+include('header.php');
 
 if (isset($_GET['user_name'])) { 
     $deleteUserName = $_GET['user_name'];

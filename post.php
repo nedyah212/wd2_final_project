@@ -88,7 +88,6 @@
 
         <label for="imageID">Image</label>
         <select id="imageID" name="imageID">
-        <option value="" selected>Select Image</option> 
             <?php foreach ($images as $image): ?>
                 <option value="<?= htmlspecialchars($image['imageID']) ?>">
                     <?= htmlspecialchars($image['image_source']) ?>
