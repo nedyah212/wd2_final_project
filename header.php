@@ -24,43 +24,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_submit'])) {
 }
 ?>
 
-<nav>
-    <h1>Visit Quarks Holosuite's Today</h1>
-    <h2>Browse My Extensive Range of Holo Programs</h2>
-    <?php
-    if (!isset($_SESSION['role']) || $_SESSION['role'] === '') {
-        echo '<form method="post" action="create_user.php">
-            <input type="submit" value="Sign Up">
-          </form><br>';
-    }
+<html>
+    <head>
+        <link rel="stylesheet" href="_styles.css">
+    </head>
+    <nav class="navigation">
+        <h1>Visit Quarks Holosuites Today</h1>
+        <h2>Browse My Extensive Range of Holo Programs</h2>
+        <?php
 
-    if (isset($_SESSION['role'])) {
-        if ($_SESSION['role'] === 'admin') {
-            echo '<nav>
-                    <h1>Admin Menu</h1>
-                    <br>
-                    <a href="admin_overview.php">Overview</a>
-                    <a href="user_overview.php">User Overview</a>
-                    <a href="add_category.php">Modify Categories</a>
-                    <a href="upload_image.php">Upload Image</a>
-                    <a href="delete_image.php">Delete Image</a>
-                    <a href="post.php">New Program</a>
-                    <br><br>
-                  </nav>';
+        if (isset($_SESSION['role'])) {
+            if ($_SESSION['role'] === 'admin') {
+                echo    '<nav>
+                            <br>
+                                <a href="admin_overview.php" class="button">Overview</a>
+                                <a href="user_overview.php" class="button">User Overview</a>
+                                <a href="add_category.php" class="button">Modify Categories</a>
+                                <a href="upload_image.php" class="button">Upload Image</a>
+                                <a href="delete_image.php" class="button">Delete Image</a>
+                                <a href="post.php" class="button">New Program</a>
+                            <br><br>
+                        </nav>';
 
-            include('sign_out.php');
-        } elseif ($_SESSION['role'] === 'user') {
-            include('sign_out.php');
+                include('sign_out.php');
+            } elseif ($_SESSION['role'] === 'user') {
+                include('sign_out.php');
+            }
+        } else {
+            echo '
+                <form method="post" action="index.php">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" class="login" required>
+                    <label for="password">Password</label>
+                    <input type="password" name="password" class="login" required>
+                    <input type="submit" name="login_submit" value="Login">
+                </form>';
+
+                if (!isset($_SESSION['role']) || $_SESSION['role'] === '') {
+                    echo '<form method="post" action="create_user.php">
+                        <input type="submit" value="Sign Up">
+                    </form><br>';
+                }
         }
-    } else {
-        echo '
-            <form method="post" action="index.php" name="log_in">
-                <label for="username">Username</label>
-                <input type="text" name="username" class="login" required>
-                <label for="password">Password</label>
-                <input type="password" name="password" class="login" required>
-                <input type="submit" name="login_submit" value="Login">
-            </form>';
-    }
-    ?>
-</nav>
+        ?>
+    </nav>
+</html>

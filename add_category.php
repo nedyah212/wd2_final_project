@@ -67,6 +67,7 @@ if (isset($_POST['update_category'])) {
 <html>
 <head>
     <title>Category Management</title>
+    <link rel="stylesheet" href="_styles.css">
 </head>
 <body>
     <p><?= $output_string ?></p>

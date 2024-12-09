@@ -12,7 +12,7 @@ $row = $statement->fetch();
 
 if ($_POST) {
     $name = filter_input(INPUT_POST, 'nameEdit', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $description = filter_input(INPUT_POST, 'descriptionEdit', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $ageRatingID = filter_input(INPUT_POST, 'ageRatingID', FILTER_SANITIZE_NUMBER_INT);
     $categoryID = filter_input(INPUT_POST, 'categoryID', FILTER_SANITIZE_NUMBER_INT);
     $imageID = filter_input(INPUT_POST, 'imageID', FILTER_SANITIZE_NUMBER_INT);
@@ -63,8 +63,8 @@ if ($_POST) {
         <label for="nameEdit">Edit Program Name</label><br>
         <input type="text" name="nameEdit" value="<?php echo htmlspecialchars(html_entity_decode($row['name'])) ?>" required><br><br>
 
-        <label for="descriptionEdit">Edit Description</label><br>
-        <textarea name="descriptionEdit" style="width: 300px; height: 150px;" required><?php echo htmlspecialchars($row['description']) ?></textarea><br><br>
+        <label for="description">Edit Description</label><br>
+        <textarea name="description" style="width: 300px; height: 150px;" required><?php echo htmlspecialchars($row['description']) ?></textarea><br><br>
 
         <label for="ageRatingID">Edit Age Rating</label><br>
         <select name="ageRatingID" required>

@@ -51,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Create User</title>
+    <link rel="stylesheet" href="_styles.css">
 </head>
 <body>
     <h2>Create a New User</h2>
@@ -65,6 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label for="confirm_password">Confirm Password:</label>
         <input type="password" name="confirm_password" required><br><br>
         <input type="submit" value="Create User">
+        <br><br>
     </form>
     <form method="post" action="" name="back">
         <input type="hidden" name="go_back" value="true">

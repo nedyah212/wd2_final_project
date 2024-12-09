@@ -47,6 +47,7 @@ $statement->execute();
     <h3>Admin Overview</h3>
 
     <form action="admin_overview.php" method="post">
+        <link rel="stylesheet" href="_styles.css">
         <label for="sortColumn">Sort by:</label>
         <select name="sortColumn" id="sortColumn">
             <option value="program.name" <?php echo ($sortColumn == 'program.name') ? 'selected' : ''; ?>>Title</option>

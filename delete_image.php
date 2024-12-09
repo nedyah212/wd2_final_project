@@ -46,6 +46,7 @@ if ($_POST)
 <html lang="en">
 <head>
     <title>Delete Image</title>
+    <link rel="stylesheet" href="_styles.css">
 </head>
 <body>
     <h2>Delete Image</h2>
@@ -61,10 +62,6 @@ if ($_POST)
         </select><br><br>
 
         <input type="submit" value="Delete Image">
-    </form>
-
-    <form method="get" action="index.php">
-        <button type="submit">Cancel</button>
     </form>
 </body>
 </html>

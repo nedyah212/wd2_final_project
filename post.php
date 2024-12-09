@@ -56,16 +56,17 @@
 <html>
 <head>
     <title>Insert Program</title>
+    <link rel="stylesheet" href="_styles.css">
 </head>
 <body>
     <h2>Add New Program</h2>
     <form method="post" action="post.php">
         <label for="name">Program Name</label>
         <input type="text" id="name" name="name" required><br>
-
+        <br>
         <label for="description">Description</label>
         <textarea id="description" name="description" required></textarea><br>
-
+        <br>
         <label for="ageRatingID">Age Rating</label>
         <select id="ageRatingID" name="ageRatingID" required>
             <option value="">Select Age Rating</option>
@@ -75,7 +76,7 @@
                 </option>
             <?php endforeach; ?>
         </select><br>
-
+        <br>
         <label for="categoryID">Category</label>
         <select id="categoryID" name="categoryID" required>
             <option value="">Select Category</option>
@@ -85,7 +86,7 @@
                 </option>
             <?php endforeach; ?>
         </select><br>
-
+        <br>        
         <label for="imageID">Image</label>
         <select id="imageID" name="imageID">
             <?php foreach ($images as $image): ?>
@@ -94,17 +95,11 @@
                 </option>
             <?php endforeach; ?>
         </select><br>
-
+        <br>
         <label for="expectedDuration">Expected Duration</label>
         <input type="text" id="expectedDuration" name="expectedDuration" required><br>
-
         <br>
         <input type="submit" value="Add Program">
-    </form>
-
-    <form method="post" action="index.php">
-        <br>    
-        <button type="submit">Cancel</button>
-    </form>
+        </form>
 </body>
 </html>

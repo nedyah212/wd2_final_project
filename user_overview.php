@@ -29,6 +29,7 @@ $queryStatement->execute();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="_styles.css">
     <title>User Overview</title>
 </head>
 <body>
@@ -39,7 +40,7 @@ $queryStatement->execute();
                 <p>
                     <?php echo htmlspecialchars($user['user_name']); ?>
                     <a href="?user_name=<?php echo urlencode($user['user_name']); ?>" 
-                       onclick="return confirm('Are you sure you want to delete this user?');">Delete User</a>
+                    onclick="return confirm('Are you sure you want to delete this user?');">Delete User</a>
                 </p>
             </li>
         <?php endwhile; ?>

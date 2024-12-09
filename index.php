@@ -87,7 +87,7 @@ $statement->execute();
         <input type="submit" value="Group">
     </form>
     </div>
-<?php while ($row = $statement->fetch()): ?>
+        <?php while ($row = $statement->fetch()): ?>
     <div>
         <div class="program">
         <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'user')): ?>
@@ -102,9 +102,9 @@ $statement->execute();
         <?php if ($row['Image']): ?>
             <p class="img"><img src="<?php echo htmlspecialchars($row['Image']); ?>" alt="<?php echo htmlspecialchars($row['Name']); ?>"></p>
         <?php endif; ?>
+        </div>
 </div>
-    </div>
-    <br>
+<br>
 <?php endwhile ?>
 </body>
 </html>
