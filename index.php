@@ -2,6 +2,16 @@
 require('connect.php');
 session_start();
 
+$getCategory = 
+    "SELECT 
+        `category`.`categoryID`,
+        `category`.`categoryName`
+        FROM `category`
+        ";
+ $getCategoryStatement = $db->prepare($getCategory);
+ $getCategoryStatement->execute();
+ $categories = $getCategoryStatement->fetchAll(PDO::FETCH_ASSOC);
+
 $query = 
 "SELECT 
     `program`.`programID` AS `ProgramID`, 
@@ -54,56 +64,33 @@ $statement->execute();
 <?php include('header.php')?>
 <br>
 <div class="category">
-    <form method="get" action="index.php">
-        <input type="hidden" name="category" value="all">
-        <input type="submit" value="All">
-    </form>
-    <form method="get" action="index.php">
-        <input type="hidden" name="category" value="historical">
-        <input type="submit" value="Historical">
-    </form>
-    <form method="get" action="index.php">
-        <input type="hidden" name="category" value="training">
-        <input type="submit" value="Training">
-    </form>
-    <form method="get" action="index.php">
-        <input type="hidden" name="category" value="combat training">
-        <input type="submit" value="Combat">
-    </form>
-    <form method="get" action="index.php">
-        <input type="hidden" name="category" value="spirituality">
-        <input type="submit" value="Spirituality">
-    </form>
-    <form method="get" action="index.php">
-        <input type="hidden" name="category" value="entertainment">
-        <input type="submit" value="Entertainment">
-    </form>
-    <form method="get" action="index.php">
-        <input type="hidden" name="category" value="adult encounters">
-        <input type="submit" value="Adult">
-    </form>
-    <form method="get" action="index.php">
-        <input type="hidden" name="category" value="group activities">
-        <input type="submit" value="Group">
-    </form>
+    <div class="category">
+        <?php foreach ($categories as $category): ?>
+            <form method="get" action="index.php">
+                <input type="hidden" name="category" value="<?php echo htmlspecialchars($category['categoryName']); ?>">
+                <input type="submit" value="<?php echo htmlspecialchars($category['categoryName']); ?>">
+            </form>
+        <?php endforeach; ?>
+    </div>
+
     </div>
         <?php while ($row = $statement->fetch()): ?>
-    <div>
-        <div class="program">
-        <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'user')): ?>
-            <h2><a href="select.php?id=<?php echo urlencode($row['ProgramID']); ?>"><?php echo htmlspecialchars($row['Name']); ?></a></h2>
-        <?php else: ?>
-            <h2><?php echo htmlspecialchars($row['Name']); ?></h2>
-        <?php endif; ?>
-        <p><strong>Description: </strong><?php echo nl2br(wordwrap(html_entity_decode($row['Description']), 60,  "\n" . str_repeat("&nbsp;", 22))); ?></p>
-        <p><strong>Age Rating:</strong> <?php echo htmlspecialchars($row['Age Rating']); ?></p>
-        <p><strong>Duration:</strong> <?php echo htmlspecialchars($row['Duration']); ?></p>
-        <p><strong>Category:</strong> <?php echo htmlspecialchars($row['Category']); ?></p>
-        <?php if ($row['Image']): ?>
-            <p class="img"><img src="<?php echo htmlspecialchars($row['Image']); ?>" alt="<?php echo htmlspecialchars($row['Name']); ?>"></p>
-        <?php endif; ?>
-        </div>
-</div>
+            <div>
+                <div class="program">
+                <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'user')): ?>
+                    <h2><a href="select.php?id=<?php echo urlencode($row['ProgramID']); ?>"><?php echo htmlspecialchars($row['Name']); ?></a></h2>
+                <?php else: ?>
+                    <h2><?php echo htmlspecialchars($row['Name']); ?></h2>
+                <?php endif; ?>
+                <p><strong>Description: </strong><?php echo nl2br(wordwrap(html_entity_decode($row['Description']), 60,  "\n" . str_repeat("&nbsp;", 22))); ?></p>
+                <p><strong>Age Rating:</strong> <?php echo htmlspecialchars($row['Age Rating']); ?></p>
+                <p><strong>Duration:</strong> <?php echo htmlspecialchars($row['Duration']); ?></p>
+                <p><strong>Category:</strong> <?php echo htmlspecialchars($row['Category']); ?></p>
+                <?php if ($row['Image']): ?>
+                    <p class="img"><img src="<?php echo htmlspecialchars($row['Image']); ?>" alt="<?php echo htmlspecialchars($row['Name']); ?>"></p>
+                <?php endif; ?>
+            </div>
+    </div>
 <br>
 <?php endwhile ?>
 </body>
