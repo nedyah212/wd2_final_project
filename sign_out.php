@@ -1,14 +1,21 @@
 <?php
-if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sign_out']))
-{
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sign_out'])) {
     $_SESSION['role'] = "";
     session_destroy();
-    header("Location: " . 'index.php');
+    header("Location: index.php");
     exit;
 }
-
-echo '
-<form method="POST" action="index.php">
-    <button type="submit" name="sign_out" value="1">Sign Out</button>
-</form>';
 ?>
+
+<html>
+    <head>
+        <link rel="stylesheet" href="_styles.css">
+    </head>
+    <body>
+        <form method="POST" action="index.php">
+            <input type="submit" name="sign_out">
+        </form>
+    </form>
+    </body>
+</html>
