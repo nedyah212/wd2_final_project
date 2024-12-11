@@ -58,7 +58,7 @@ if (isset($_SESSION['role'])) {
                             <input type="submit" class="button" value="Overview">
                         </form>
                         <form method="GET" action="user_overview.php">
-                            <input type="submit" class="button" value="New User">
+                            <input type="submit" class="button" value="Users">
                         </form>
                         <form method="GET" action="add_category.php">
                             <input type="submit" class="button" value="Categories">

@@ -61,6 +61,25 @@ if (isset($_POST['update_category'])) {
         $output_string = "Please select a category, and provide both a new name and description.";
     }
 }
+
+
+if (isset($_POST['delete_category'])) {
+    $category_id = $_POST['category_id'];
+
+    if (!empty($category_id)){
+        $programQuery = "UPDATE `program` SET `categoryID` = 8 WHERE `categoryID` = :category_id";
+        $statement = $db->prepare($programQuery);
+        $statement->bindValue(':category_id', $category_id);
+        $statement->execute();
+
+        $categoryQuery = "DELETE FROM `category` WHERE `categoryID` = :category_id";
+        $statement = $db->prepare($categoryQuery);
+        $statement->bindValue(':category_id', $category_id);
+        $statement->execute();
+    }
+
+    header("Location: add_category.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -77,11 +96,9 @@ if (isset($_POST['update_category'])) {
         <label for="new_name">Category Name:</label>
         <input type="text" name="new_name" id="new_name" required />
         <br><br>
-
         <label for="new_description">Description:</label>
         <textarea name="new_description" id="new_description" required></textarea>
         <br><br>
-
         <input type="submit" name="create_category" value="Create Category" />
     </form>
 
@@ -93,21 +110,34 @@ if (isset($_POST['update_category'])) {
         <select name="category_id" id="category_id" required>
             <option value="">-- Select Category --</option>
             <?php foreach ($categories as $category): ?>
-                <option value="<?= $category['categoryID'] ?>"><?= htmlspecialchars($category['categoryName']) ?></option>
+                <?php if($category['categoryID'] !== 8): ?>
+                    <option value="<?= $category['categoryID'] ?>"><?= htmlspecialchars($category['categoryName']) ?></option>
+                <?php endif; ?>
             <?php endforeach; ?>
         </select>
         <br><br>
-
         <label for="new_name">New Category Name:</label>
         <input type="text" name="new_name" id="new_name" required />
         <br><br>
-
         <label for="new_description">New Description:</label>
         <textarea name="new_description" id="new_description" required></textarea>
         <br><br>
-
         <input type="submit" name="update_category" value="Update Category" />
     </form>
 
+    <h2>Delete Category</h2>
+    <form method="post" action="add_category.php">
+        <label for="category_id">Select Category to Modify:</label>
+        <select name="category_id" id="category_id" required>
+            <option value="">-- Select Category --</option>
+            <?php foreach ($categories as $category): ?>
+                <?php if($category['categoryID'] !== 8): ?>
+                    <option value="<?= $category['categoryID'] ?>"><?= htmlspecialchars($category['categoryName']) ?></option>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </select>
+        <br><br>
+        <input type="submit" name="delete_category" value="Delete Category" />
+    </form>
 </body>
 </html>

@@ -21,8 +21,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->bindParam(':username', $username);
                 $stmt->execute();
 
-                if ($stmt->fetchColumn() > 0) {
-                    echo "<p>User already exists. Please choose a different username.</p>";
+                if ($stmt->fetchColumn() > 0) 
+                {
+                    session_start();
+                    
                 } else {
                     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
                     $insertQuery = "INSERT INTO `user` (`user_name`, `password`,`email`, `role`) VALUES (:username, :password, :email, 'user')";
@@ -32,7 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $stmt->bindParam(':password', $hashedPassword);
 
                     if ($stmt->execute()) {
-                        echo "<p>User created successfully!</p>";
+                        session_start();
+                        $_SESSION['role'] = 'user';
+                        $_SESSION['username'] = $username;
+                        header("Location: index.php");
                     } else {
                         echo "<p>Error creating user. Please try again later.</p>";
                     }

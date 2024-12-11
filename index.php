@@ -66,10 +66,12 @@ $statement->execute();
 <div class="category">
     <div class="category">
         <?php foreach ($categories as $category): ?>
-            <form method="get" action="index.php">
-                <input type="hidden" name="category" value="<?php echo htmlspecialchars($category['categoryName']); ?>">
-                <input type="submit" value="<?php echo htmlspecialchars($category['categoryName']); ?>">
-            </form>
+            <?php if ($category['categoryID'] !== 8):?>
+                <form method="get" action="index.php">
+                    <input type="hidden" name="category" value="<?php echo htmlspecialchars($category['categoryName']); ?>">
+                    <input type="submit" value="<?php echo htmlspecialchars($category['categoryName']); ?>">
+                </form>
+            <?php endif; ?>
         <?php endforeach; ?>
     </div>
 

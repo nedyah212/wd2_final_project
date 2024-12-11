@@ -37,11 +37,14 @@ $queryStatement->execute();
     <ul>
         <?php while ($user = $queryStatement->fetch(PDO::FETCH_ASSOC)): ?>
             <li>
-                <p>
+            <p>              
+    <form method="GET" action="user_overview.php">
+                <form action="GET" action="user_overview.php">    
                     <?php echo htmlspecialchars($user['user_name']); ?>
-                    <a href="?user_name=<?php echo urlencode($user['user_name']); ?>" 
-                    onclick="return confirm('Are you sure you want to delete this user?');">Delete User</a>
-                </p>
+                    <input type="hidden" name="user_name" value="<?php echo $user['user_name']; ?>" />
+                    <input type="submit" value="Delete User" onclick="return confirm('Are you sure you want to delete this user?');">
+                </form>
+            </p>
             </li>
         <?php endwhile; ?>
     </ul>
