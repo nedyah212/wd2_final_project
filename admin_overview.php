@@ -34,6 +34,34 @@ ORDER BY $sortColumn $sortOrder";
 
 $statement = $db->prepare($query);
 $statement->execute();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['reviewID']) && isset($_POST['hiddenStatus'])) {
+        $reviewID = (int) $_POST['reviewID'];
+        $hiddenStatus = (int) $_POST['hiddenStatus'];
+
+        $updateQuery = "UPDATE review SET hidden = :hiddenStatus WHERE reviewID = :reviewID";
+        $updateStatement = $db->prepare($updateQuery);
+        $updateStatement->bindValue(':hiddenStatus', $hiddenStatus, PDO::PARAM_INT);
+        $updateStatement->bindValue(':reviewID', $reviewID, PDO::PARAM_INT);
+        $updateStatement->execute();
+
+        header('Location: admin_overview.php');
+        exit;
+    }
+
+    if (isset($_POST['deleteReviewID'])) {
+        $deleteReviewID = (int) $_POST['deleteReviewID'];
+
+        $deleteQuery = "DELETE FROM review WHERE reviewID = :reviewID";
+        $deleteStatement = $db->prepare($deleteQuery);
+        $deleteStatement->bindValue(':reviewID', $deleteReviewID, PDO::PARAM_INT);
+        $deleteStatement->execute();
+
+        header('Location: admin_overview.php');
+        exit;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -69,19 +97,19 @@ $statement->execute();
     <?php 
     while ($row = $statement->fetch(PDO::FETCH_ASSOC)): ?>
         <h2>
-            <a href="select.php?id=<?php echo htmlspecialchars($row['ProgramID']); ?>">
-                <?php echo htmlspecialchars($row['Name'] ?? 'No Name'); ?>
+            <a href="select.php?id=<?php echo html_entity_decode($row['ProgramID']); ?>">
+                <?php echo html_entity_decode($row['Name'] ?? 'No Name'); ?>
             </a>
         </h2>
-        <p><strong>Description:</strong> <?php echo htmlspecialchars($row['Description']); ?></p>
-        <p><strong>Age Rating:</strong> <?php echo htmlspecialchars($row['Age Rating']); ?></p>
-        <p><strong>Duration:</strong> <?php echo htmlspecialchars($row['Duration']); ?></p>
-        <p><strong>Category:</strong> <?php echo htmlspecialchars($row['Category']); ?></p>
+        <p><strong>Description:</strong> <?php echo html_entity_decode($row['Description']); ?></p>
+        <p><strong>Age Rating:</strong> <?php echo html_entity_decode($row['Age Rating']); ?></p>
+        <p><strong>Duration:</strong> <?php echo html_entity_decode($row['Duration']); ?></p>
+        <p><strong>Category:</strong> <?php echo html_entity_decode($row['Category']); ?></p>
         
         <?php if ($row['Reviewer'] && $row['Review']): ?>
             <h4>User Reviews:</h4>
-            <p><strong><?php echo htmlspecialchars($row['Reviewer']); ?> says:</strong></p>
-            <p><?php echo nl2br(htmlspecialchars($row['Review'])); ?></p>
+            <p><strong><?php echo html_entity_decode($row['Reviewer']); ?> says:</strong></p>
+            <p><?php echo nl2br(html_entity_decode($row['Review'])); ?></p>
 
             <form action="admin_overview.php" method="post">
                 <input type="hidden" name="reviewID" value="<?php echo $row['ReviewID']; ?>">
@@ -108,33 +136,3 @@ $statement->execute();
     <a href="index.php">Back to Index</a>
 </body>
 </html>
-
-<?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['reviewID']) && isset($_POST['hiddenStatus'])) {
-        $reviewID = (int) $_POST['reviewID'];
-        $hiddenStatus = (int) $_POST['hiddenStatus'];
-
-        $updateQuery = "UPDATE review SET hidden = :hiddenStatus WHERE reviewID = :reviewID";
-        $updateStatement = $db->prepare($updateQuery);
-        $updateStatement->bindValue(':hiddenStatus', $hiddenStatus, PDO::PARAM_INT);
-        $updateStatement->bindValue(':reviewID', $reviewID, PDO::PARAM_INT);
-        $updateStatement->execute();
-
-        header('Location: admin_overview.php');
-        exit;
-    }
-
-    if (isset($_POST['deleteReviewID'])) {
-        $deleteReviewID = (int) $_POST['deleteReviewID'];
-
-        $deleteQuery = "DELETE FROM review WHERE reviewID = :reviewID";
-        $deleteStatement = $db->prepare($deleteQuery);
-        $deleteStatement->bindValue(':reviewID', $deleteReviewID, PDO::PARAM_INT);
-        $deleteStatement->execute();
-
-        header('Location: admin_overview.php');
-        exit;
-    }
-}
-?>

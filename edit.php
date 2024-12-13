@@ -64,7 +64,7 @@ if ($_POST) {
         <input type="text" name="nameEdit" value="<?php echo htmlspecialchars(html_entity_decode($row['name'])) ?>" required><br><br>
 
         <label for="description">Edit Description</label><br>
-        <textarea name="description" style="width: 300px; height: 150px;" required><?php echo htmlspecialchars($row['description']) ?></textarea><br><br>
+        <textarea name="description" style="width: 300px; height: 150px;" required><?php echo html_entity_decode($row['description']) ?></textarea><br><br>
 
         <label for="ageRatingID">Edit Age Rating</label><br>
         <select name="ageRatingID" required>
@@ -74,7 +74,7 @@ if ($_POST) {
             $ageRatings = $db->query($query);
             while ($ageRow = $ageRatings->fetch()) {
                 $selected = ($ageRow['ageRatingID'] == $row['ageRatingID']) ? 'selected' : '';
-                echo "<option value='" . $ageRow['ageRatingID'] . "' $selected>" . htmlspecialchars($ageRow['description']) . "</option>";
+                echo "<option value='" . $ageRow['ageRatingID'] . "' $selected>" . html_entity_decode($ageRow['description']) . "</option>";
             }
             ?>
         </select><br><br>
@@ -87,7 +87,7 @@ if ($_POST) {
             $categories = $db->query($query);
             while ($categoryRow = $categories->fetch()) {
                 $selected = ($categoryRow['categoryID'] == $row['categoryID']) ? 'selected' : '';
-                echo "<option value='" . $categoryRow['categoryID'] . "' $selected>" . htmlspecialchars($categoryRow['categoryName']) . "</option>";
+                echo "<option value='" . $categoryRow['categoryID'] . "' $selected>" . html_entity_decode($categoryRow['categoryName']) . "</option>";
             }
             ?>
         </select><br><br>
@@ -100,13 +100,13 @@ if ($_POST) {
             $images = $db->query($query);
             while ($imageRow = $images->fetch()) {
                 $selected = ($imageRow['imageID'] == $row['imageID']) ? 'selected' : '';
-                echo "<option value='" . $imageRow['imageID'] . "' $selected>" . htmlspecialchars($imageRow['image_source']) . "</option>";
+                echo "<option value='" . $imageRow['imageID'] . "' $selected>" . html_entity_decode($imageRow['image_source']) . "</option>";
             }
             ?>
         </select><br><br>
 
         <label for="expectedDuration">Edit Expected Duration</label><br>
-        <input type="text" name="expectedDuration" value="<?php echo htmlspecialchars($row['expectedDuration']) ?>" required><br><br>
+        <input type="text" name="expectedDuration" value="<?php echo html_entity_decode($row['expectedDuration']) ?>" required><br><br>
 
         <input type="submit" value="Update Program">
     </form>

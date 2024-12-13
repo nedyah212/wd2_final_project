@@ -3,11 +3,7 @@ require('connect.php');
 session_start();
 
 $getCategory = 
-    "SELECT 
-        `category`.`categoryID`,
-        `category`.`categoryName`
-        FROM `category`
-        ";
+    "SELECT `category`.`categoryID`,`category`.`categoryName`FROM `category`";
  $getCategoryStatement = $db->prepare($getCategory);
  $getCategoryStatement->execute();
  $categories = $getCategoryStatement->fetchAll(PDO::FETCH_ASSOC);
@@ -36,7 +32,7 @@ JOIN
 ON 
     `program`.`categoryID` = `category`.`categoryID`";
 
-if (isset($_GET['category']) && $_GET['category'] !== 'all') {
+if (isset($_GET['category']) && $_GET['category'] !== 'All') {
     $category = htmlspecialchars($_GET['category']);
     $query .= " WHERE `category`.`categoryName` = :category";
 }
@@ -80,16 +76,16 @@ $statement->execute();
             <div>
                 <div class="program">
                 <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'user')): ?>
-                    <h2><a href="select.php?id=<?php echo urlencode($row['ProgramID']); ?>"><?php echo htmlspecialchars($row['Name']); ?></a></h2>
+                    <h2><a href="select.php?id=<?php echo urlencode($row['ProgramID']); ?>"><?php echo html_entity_decode($row['Name']); ?></a></h2>
                 <?php else: ?>
-                    <h2><?php echo htmlspecialchars($row['Name']); ?></h2>
+                    <h2><?php echo html_entity_decode($row['Name']); ?></h2>
                 <?php endif; ?>
                 <p><strong>Description: </strong><?php echo nl2br(wordwrap(html_entity_decode($row['Description']), 60,  "\n" . str_repeat("&nbsp;", 22))); ?></p>
-                <p><strong>Age Rating:</strong> <?php echo htmlspecialchars($row['Age Rating']); ?></p>
-                <p><strong>Duration:</strong> <?php echo htmlspecialchars($row['Duration']); ?></p>
-                <p><strong>Category:</strong> <?php echo htmlspecialchars($row['Category']); ?></p>
+                <p><strong>Age Rating:</strong> <?php echo html_entity_decode($row['Age Rating']); ?></p>
+                <p><strong>Duration:</strong> <?php echo html_entity_decode($row['Duration']); ?></p>
+                <p><strong>Category:</strong> <?php echo html_entity_decode($row['Category']); ?></p>
                 <?php if ($row['Image']): ?>
-                    <p class="img"><img src="<?php echo htmlspecialchars($row['Image']); ?>" alt="<?php echo htmlspecialchars($row['Name']); ?>"></p>
+                    <p class="img"><img src="<?php echo html_entity_decode($row['Image']); ?>" alt="<?php echo htmlspecialchars($row['Name']); ?>"></p>
                 <?php endif; ?>
             </div>
     </div>

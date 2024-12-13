@@ -71,8 +71,8 @@
         <select id="ageRatingID" name="ageRatingID" required>
             <option value="">Select Age Rating</option>
             <?php foreach ($ageRatings as $rating): ?>
-                <option value="<?= htmlspecialchars($rating['ageRatingID']) ?>">
-                    <?= htmlspecialchars($rating['description']) ?>
+                <option value="<?= html_entity_decode($rating['ageRatingID']) ?>">
+                    <?= html_entity_decode($rating['description']) ?>
                 </option>
             <?php endforeach; ?>
         </select><br>
@@ -82,7 +82,7 @@
             <option value="">Select Category</option>
             <?php foreach ($categories as $category): ?>
                 <option value="<?= htmlspecialchars($category['categoryID']) ?>">
-                    <?= htmlspecialchars($category['categoryName']) ?>
+                    <?= html_entity_decode($category['categoryName']) ?>
                 </option>
             <?php endforeach; ?>
         </select><br>
@@ -90,8 +90,8 @@
         <label for="imageID">Image</label>
         <select id="imageID" name="imageID">
             <?php foreach ($images as $image): ?>
-                <option value="<?= htmlspecialchars($image['imageID']) ?>">
-                    <?= htmlspecialchars($image['image_source']) ?>
+                <option value="<?= html_entity_decode($image['imageID']) ?>">
+                    <?= html_entity_decode($image['image_source']) ?>
                 </option>
             <?php endforeach; ?>
         </select><br>

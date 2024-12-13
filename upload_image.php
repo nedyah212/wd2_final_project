@@ -59,7 +59,7 @@ if (isset($_FILES['uploaded_file']) && $_FILES['uploaded_file']['error'] == 0) {
     <title>Admin File Upload</title>
 </head>
 <body>
-    <h1>Admin File Upload: </h1>
+    <h2>Admin File Upload: </h2>
     <link rel="stylesheet" href="_styles.css">
     <form method="post" enctype="multipart/form-data">
         <label for="uploaded_file"><strong>Choose Image File (Blank Row For No Image):</strong></label>

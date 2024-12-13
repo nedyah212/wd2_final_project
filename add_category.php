@@ -110,7 +110,7 @@ if (isset($_POST['delete_category'])) {
         <select name="category_id" id="category_id" required>
             <option value="">-- Select Category --</option>
             <?php foreach ($categories as $category): ?>
-                <?php if($category['categoryID'] !== 8): ?>
+                <?php if($category['categoryID'] !== 8 && $category['categoryID'] !== 48): ?>
                     <option value="<?= $category['categoryID'] ?>"><?= htmlspecialchars($category['categoryName']) ?></option>
                 <?php endif; ?>
             <?php endforeach; ?>
@@ -131,7 +131,7 @@ if (isset($_POST['delete_category'])) {
         <select name="category_id" id="category_id" required>
             <option value="">-- Select Category --</option>
             <?php foreach ($categories as $category): ?>
-                <?php if($category['categoryID'] !== 8): ?>
+                <?php if($category['categoryID'] !== 8 && $category['categoryID'] !== 48): ?>
                     <option value="<?= $category['categoryID'] ?>"><?= htmlspecialchars($category['categoryName']) ?></option>
                 <?php endif; ?>
             <?php endforeach; ?>
