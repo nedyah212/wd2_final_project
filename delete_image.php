@@ -48,7 +48,7 @@ if ($_POST)
     <title>Delete Image</title>
     <link rel="stylesheet" href="_styles.css">
 </head>
-<body>
+<body class='admin'>
     <h2>Delete Image</h2>
     <form method="post" action="">
         <label for="imageID">Image</label>

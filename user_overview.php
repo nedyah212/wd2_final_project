@@ -32,7 +32,7 @@ $queryStatement->execute();
     <link rel="stylesheet" href="_styles.css">
     <title>User Overview</title>
 </head>
-<body>
+<body class = 'admin'>
     <h1>User Overview</h1>
     <ul>
         <?php while ($user = $queryStatement->fetch(PDO::FETCH_ASSOC)): ?>

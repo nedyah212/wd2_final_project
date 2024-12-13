@@ -58,7 +58,7 @@ if (isset($_FILES['uploaded_file']) && $_FILES['uploaded_file']['error'] == 0) {
 <head>
     <title>Admin File Upload</title>
 </head>
-<body>
+<body class='admin'>
     <h2>Admin File Upload: </h2>
     <link rel="stylesheet" href="_styles.css">
     <form method="post" enctype="multipart/form-data">

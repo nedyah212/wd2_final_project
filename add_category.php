@@ -88,7 +88,7 @@ if (isset($_POST['delete_category'])) {
     <title>Category Management</title>
     <link rel="stylesheet" href="_styles.css">
 </head>
-<body>
+<body class='admin'>
     <p><?= $output_string ?></p>
 
     <h2>Create New Category</h2>

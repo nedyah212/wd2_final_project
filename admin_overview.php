@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Overview</title>
 </head>
-<body>
+<body id='text'>
     <h3>Admin Overview</h3>
 
     <form action="admin_overview.php" method="post">
@@ -128,8 +128,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php else: ?>
             <p>No reviews yet.</p>
         <?php endif; ?>
-        
-        <a href="edit.php?id=<?php echo htmlspecialchars($row['ProgramID']); ?>">Edit</a>
+        <form action="">
+            <a href="edit.php?id=<?php echo htmlspecialchars($row['ProgramID']); ?>">Edit</a>
+        </form>
         <hr>
     <?php endwhile; ?>    
 

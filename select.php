@@ -97,25 +97,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </ul>
         <?php else: ?>
             <p>No reviews yet. Log In and Leave a Review.</p>
-        <?php endif; ?>
+        <?php endif; ?>       
+        <div class='review'>
+            <h3>Leave a Review</h3>
+            <form method="post">
+                <label for="reviewerName">Your Name:</label>
+                <input type="text" name="reviewerName" id="reviewerName" required>
 
-        <h3>Leave a Review</h3>
-        <form method="post">
-            <label for="reviewerName">Your Name:</label>
-            <input type="text" name="reviewerName" id="reviewerName" required>
+                <label for="rating">Rating (1-5):</label>
+                <input type="number" name="rating" id="rating" min="1" max="5" required>
 
-            <label for="rating">Rating (1-5):</label>
-            <input type="number" name="rating" id="rating" min="1" max="5" required>
+                <label for="reviewText">Your Review:</label>
+                <textarea name="reviewText" id="reviewText" required></textarea>
 
-            <label for="reviewText">Your Review:</label>
-            <textarea name="reviewText" id="reviewText" required></textarea>
-
-            <button type="submit">Submit Review</button>
-        </form>
+                <button type="submit">Submit Review</button>
+            </form>
+        </div>
     <?php else: ?>
         <p>Program not found.</p>
     <?php endif; ?>
 
-    <button onclick="history.back()">Back</button>
+    <button class='review' onclick="history.back()">Back</button>
 </body>
 </html>

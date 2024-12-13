@@ -58,7 +58,7 @@
     <title>Insert Program</title>
     <link rel="stylesheet" href="_styles.css">
 </head>
-<body>
+<body class='admin'>
     <h2>Add New Program</h2>
     <form method="post" action="post.php">
         <label for="name">Program Name</label>

@@ -1,6 +1,7 @@
 <?php
 require('connect.php');
 session_start();
+include('header.php');
 
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
@@ -55,7 +56,7 @@ if ($_POST) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Program</title>
 </head>
-<body>
+<body class = 'admin'>
 
     <h2>Edit Program</h2>
 
@@ -115,6 +116,7 @@ if ($_POST) {
         <br>    
         <button type="submit" onclick="return confirm('Are you sure you want to delete this program?');">Delete Program</button>
     </form>
+    
 
     <form method="post" action="index.php">
         <br>

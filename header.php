@@ -45,8 +45,8 @@ if (isset($_SESSION['role'])) {
     <body>
         <nav class="navigation">
             <p><?php echo $login_message; ?></p> 
-            <h1>Visit Quarks Holosuites Today</h1>
-            <h2>Browse My Extensive Range of Holo Programs</h2>
+            <h1>Welcome to Quarks</h1>
+            <h2>Browse My Extensive Range of Holo-Programs</h2>
             
             <?php if (isset($_SESSION['role'])): ?>
                 <?php if ($_SESSION['role'] === 'admin'): ?>

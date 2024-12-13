@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Create User</title>
     <link rel="stylesheet" href="_styles.css">
 </head>
-<body>
+<body class='admin'>
     <h2>Create a New User</h2>
     <form method="post" action="">
         <input type="hidden" name="create_user" value="true">
